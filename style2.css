@@ -1,0 +1,56 @@
+body {
+  font-family: Arial, sans-serif;
+  background: pink;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  max-width: 1000px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.sidebar-satu {
+  flex: 1;
+  order: 1;
+  background: pink;
+  padding: 15px;
+  margin-right: 10px;
+}
+
+.konten {
+  flex: 2;
+  order: 2;
+  background: #fff;
+  padding: 15px;
+  margin: 0 10px;
+}
+
+.sidebar-dua {
+  flex: 1;
+  order: 3;
+  background: pink;
+  padding: 15px;
+  margin-left: 10px;
+  max-width: 200px;      
+  word-wrap: break-word;  
+  word-break: break-word; 
+  text-align: justify;
+}
+
+h2, h3 {
+  color: #333;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
