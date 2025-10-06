@@ -3,7 +3,7 @@ $host = 'localhost';
 $port = '5432';
 $dbname = 'phpdatabase';
 $user = 'postgres';
-$password = '123';   // tetap pakai $password
+$password = '123';   
 
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
 if (!$conn) {
@@ -12,7 +12,6 @@ if (!$conn) {
 
 pg_set_client_encoding($conn, 'UTF8');
 
-// Pakai nama kolom yang sesuai (case-sensitive jika DIKUTIP)
 $sql = '
     SELECT
         "Nim"     AS "Nim",
