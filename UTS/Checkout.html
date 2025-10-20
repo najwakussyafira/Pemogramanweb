@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout | SKY STORE</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #ffe1ef, #ffffff);
+      text-align: center;
+      padding: 40px;
+    }
+
+    .box {
+      background: white;
+      max-width: 400px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(255, 128, 181, 0.3);
+    }
+
+    h2 {
+      color: #e75480;
+      margin-bottom: 10px;
+    }
+
+    input, select {
+      width: 80%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ffcce0;
+    }
+
+    .btn {
+      background-color: #ff80b5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #e75480;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Checkout Produk</h2>
+    <p>Anda memilih: <strong id="produkNama"></strong></p>
+
+    <form action="proses_checkout.php" method="post">
+  <input type="text" name="nama" placeholder="Nama Lengkap" required><br>
+  <input type="email" name="email" placeholder="Email Aktif" required><br>
+
+  <select name="pembayaran" required>
+    <option value="">Pilih Metode Pembayaran</option>
+    <option value="Dana">Dana</option>
+    <option value="Gopay">Gopay</option>
+    <option value="Bank Transfer">Bank Transfer</option>
+  </select><br><br>
+
+  <!-- produk akan dikirim ke PHP -->
+  <input type="hidden" name="produk" id="produkInput">
+
+  <button type="submit" class="btn">Kirim Pembayaran</button>
+</form>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const produk = params.get("produk") || "Tidak diketahui";
+  document.getElementById("produkNama").textContent = produk;
+  document.getElementById("produkInput").value = produk;
+</script>
+</body>
+</html>
