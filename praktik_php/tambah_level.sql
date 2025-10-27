@@ -1,0 +1,2 @@
+ALTER TABLE
+    `user` ADD COLUMN `level` VARCHAR(5) NOT NULL;
