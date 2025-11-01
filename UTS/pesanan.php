@@ -1,106 +1,117 @@
 <?php
-include "koneksi.php";
-
-$query = pg_query($conn, "SELECT * FROM public.\"TB_pesanan\" ORDER BY id ASC");
+require __DIR__ . '/koneksi.php';
+$conn = get_pg_connection();
+$result = @pg_query($conn, 'SELECT * FROM public."TB_pesanan" ORDER BY id ASC');
+if (!$result) die("Gagal mengambil data: " . pg_last_error($conn));
 ?>
-
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="id">
 <head>
-    <title>Data Pesanan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="utf-8">
+<title>Daftar Pesanan | SKY STORE</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <style>
-        body { padding: 30px 30px 30px 0; 
-        }
-        .navbar-brand { font-weight: 800; font-size: 1.25rem; }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border:1px solid #999;
-        }
-        th, td {
-            padding: 10px;
-            text-align:center;
-        }
-        th {
-            background: #ff80b5;
-            color:white;
-        }
-        .btn-add {
-            background:#28a745;
-            padding:8px 15px;
-            color:white;
-            border-radius:5px;
-            text-decoration:none;
-        }
-        .btn-edit {
-            background:#ffc107;
-            padding:5px 10px;
-            color:white;
-            border-radius:5px;
-            text-decoration:none;
-        }
-        .btn-delete {
-            background:#dc3545;
-            padding:5px 10px;
-            color:white;
-            border-radius:5px;
-            text-decoration:none;
-        }
-    </style>
+<style>
+body {
+  background-color: #fff6fa;
+  font-family: "Poppins", system-ui, sans-serif;
+}
+.navbar {
+  background: linear-gradient(90deg,#ffb3d9,#ffd6eb);
+}
+.navbar-brand {
+  font-weight:700;
+  color:#fff !important;
+  font-size:1.4rem;
+}
+.card {
+  border:none;
+  box-shadow:0 4px 8px rgba(255,182,193,0.3);
+  border-radius:1rem;
+}
+.table thead {
+  background-color:#ffe6f1;
+  color:#d63384;
+}
+.btn-primary {
+  background-color:#ff80b5;
+  border:none;
+}
+.btn-primary:hover {
+  background-color:#ff5c9e;
+}
+.btn-warning {
+  background-color:#ffd6eb;
+  border:none;
+  color:#d63384;
+}
+.btn-warning:hover {
+  background-color:#ffb3d9;
+}
+.btn-danger {
+  background-color:#ff99c8;
+  border:none;
+}
+.btn-danger:hover {
+  background-color:#ff4f9a;
+}
+h1 {
+  color:#d63384;
+}
+</style>
 </head>
+
 <body>
-<nav class="navbar bg-body-tertiary">
-  <div class="container-fluid px-3">
-    <a class="navbar-brand fw-bold" href="#">DATA PESANAN SKY STORE</a>
+<nav class="navbar navbar-light shadow-sm mb-4">
+  <div class="container">
+    <a class="navbar-brand" href="#">☁ SKY STORE | Admin Pesanan</a>
   </div>
 </nav>
 
-</nav>
-<br>
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">Daftar Pesanan</h1>
+    <a href="create_pesanan.php" class="btn btn-primary">+ Tambah Pesanan</a>
+  </div>
 
-
-<a href="tambah.php" class="btn-add">+ Tambah Pesanan</a>
-<br><br>
-
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Nama</th>
-        <th>Email</th>
-        <th>Metode Pembayaran</th>
-        <th>Produk</th>
-        <th>Tanggal Pesan</th>
-        <th>Aksi</th>
-    </tr>
-
-    <?php
-    while($row = pg_fetch_assoc($query)) {
-    ?>
-    <tr>
-        <td><?php echo $row['id']; ?></td>
-        <td><?php echo $row['Nama']; ?></td>
-        <td><?php echo $row['Email']; ?></td>
-        <td><?php echo $row['Metode_Pembayaran']; ?></td>
-        <td><?php echo $row['Produk']; ?></td>
-        <td><?php echo $row['tanggal_pesan']; ?></td>
-
-        <td>
-            <a class="btn-edit" href="edit.php?id=<?php echo $row['id']; ?>">Edit</a>
-
-            <a class="btn-delete"
-               href="hapus.php?id=<?php echo $row['id']; ?>"
-               onclick="return confirm('Yakin ingin menghapus pesanan ini?');">
-               Hapus
-            </a>
-        </td>
-    </tr>
-    <?php } ?>
-
-</table>
-
+  <div class="card">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle text-center">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Metode</th>
+              <th>Produk</th>
+              <th>Tanggal</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php $no=1; while($row=pg_fetch_assoc($result)): ?>
+            <tr>
+              <td><?= $no++ ?></td>
+              <td><?= htmlspecialchars($row['Nama']) ?></td>
+              <td><?= htmlspecialchars($row['Email']) ?></td>
+              <td><?= htmlspecialchars($row['Metode_Pembayaran']) ?></td>
+              <td><?= htmlspecialchars($row['Produk']) ?></td>
+              <td><?= htmlspecialchars($row['tanggal_pesan'] ?? '-') ?></td>
+              <td>
+                <a href="edit_pesanan.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-warning">Edit</a>
+                <form action="delete_pesanan.php" method="post" class="d-inline" onsubmit="return confirm('Yakin hapus pesanan ini?')">
+                  <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                  <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                </form>
+              </td>
+            </tr>
+            <?php endwhile; ?>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
